@@ -47,7 +47,7 @@ jobs:
           cat <<EOF > backend.hcl
           bucket = "${{ vars.S3_BACKEND_NAME }}"
           key = "${{ vars.LICENSEPLATE }}/${{ env.environment }}/serverless-app-backend.tfstate"
-          dynamodb_table = "terraform-remote-state-lock-${{ vars.LICENSEPLATE }}"
+          dynamodb_table =  "${{ vars.DYNAMO_DB_TABLE_NAME }}"
           EOF
           terraform init -backend-config=backend.hcl
           terraform apply -auto-approve
