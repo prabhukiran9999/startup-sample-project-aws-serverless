@@ -46,6 +46,7 @@ jobs:
           cd server
           cat <<EOF > backend.hcl
           bucket = "${{ vars.S3_BACKEND_NAME }}"
+          region = "ca-central-1"
           key = "${{ vars.LICENSEPLATE }}/${{ env.environment }}/serverless-app-backend.tfstate"
           dynamodb_table =  "${{ vars.DYNAMO_DB_TABLE_NAME }}"
           EOF
@@ -61,6 +62,7 @@ jobs:
           CI=false npm run build
           cat <<EOF > backend.hcl
           bucket = "${{ vars.S3_BACKEND_NAME }}"
+          region = "ca-central-1"
           key = "${{ vars.LICENSEPLATE }}/${{ env.environment }}/serverless-app-frontend.tfstate"
           dynamodb_table = "${{ vars.DYNAMO_DB_TABLE_NAME }}"
           EOF
