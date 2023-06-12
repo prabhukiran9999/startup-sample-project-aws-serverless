@@ -115,7 +115,7 @@ locals {
   }
 }
 
-resource "aws_s3_bucket_object" "site_files" {
+resource "aws_s3_object" "site_files" {
   # Enumerate all the files in ./src
   for_each = fileset(local.src_dir, "**")
 

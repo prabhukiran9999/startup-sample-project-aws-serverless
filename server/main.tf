@@ -39,8 +39,16 @@ data "archive_file" "lambda_greetings_server" {
   output_path = "${path.module}/greetings-server.zip"
 }
 
-resource "aws_s3_bucket_object" "lambda_greetings_server" {
-  bucket = aws_s3_bucket.buckets["lambda-bucket"].id #argument deprecated
+# resource "aws_s3_bucket_object" "lambda_greetings_server" {
+#   bucket = aws_s3_bucket.buckets["lambda-bucket"].id #argument deprecated
+#   key    = "greetings-server.zip"
+#   source = data.archive_file.lambda_greetings_server.output_path
+#   etag   = filemd5(data.archive_file.lambda_greetings_server.output_path)
+#   #checkov:skip=CKV_AWS_186:Encryption is automatically done by ASEA
+# }
+
+resource "aws_s3_object" "lambda_greetings_server" {
+  bucket = aws_s3_bucket.buckets["lambda-bucket"].id
   key    = "greetings-server.zip"
   source = data.archive_file.lambda_greetings_server.output_path
   etag   = filemd5(data.archive_file.lambda_greetings_server.output_path)
@@ -155,7 +163,7 @@ resource "aws_lambda_function" "greetings_server_lambda" {
   #checkov:skip=CKV_AWS_173:The environment variables below are encrypted at rest with the default Lambda service key.
   #checkov:skip=CKV_AWS_272: "Ensure AWS Lambda function is configured to validate code-signing"
   s3_bucket = aws_s3_bucket.buckets["lambda-bucket"].id
-  s3_key    = aws_s3_bucket_object.lambda_greetings_server.key
+  s3_key    = aws_s3_object.lambda_greetings_server.key
 
   runtime                        = "nodejs14.x"
   handler                        = "./lambda.handler"
