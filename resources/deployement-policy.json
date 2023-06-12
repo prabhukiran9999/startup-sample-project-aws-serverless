@@ -18,7 +18,7 @@
             "Action": [
                 "s3:*"
             ],
-            "Resource": [
+            "Resource": [                
                 "arn:aws:s3:::tnfhhm-dev-serverless-sample-app/*",
                 "arn:aws:s3:::upload-bucket*",
                 "arn:aws:s3:::lambda-bucket*",
